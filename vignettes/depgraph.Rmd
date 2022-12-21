@@ -1,0 +1,106 @@
+---
+title: "Dependency graph" 
+author: "<h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('../DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>" 
+date: "<h4>Vignette updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
+output:
+  BiocStyle::html_document
+vignette: >
+    %\VignetteIndexEntry{depgraph} 
+    %\usepackage[utf8]{inputenc}
+    %\VignetteEngine{knitr::rmarkdown}
+---
+
+
+```{r}
+requireNamespace("htmltools")
+library(data.table)
+```
+
+
+A dependency graph for all GitHub repos that use the `rworkflows` GitHub Action.
+
+# Create
+
+Here is the code for creating the plot.
+
+## Install required packages
+
+```R 
+if(!require("echodeps"))remotes::install_github("RajLabMSSM/echodeps",
+                                                dependencies = TRUE)
+```
+
+## Create graph 
+
+```R
+res <- echodeps::dep_graph(pkg = "rworkflows",
+                           method = "github",
+                           shape = "hexagon",
+                           exclude = c("neurogenomics_rworkflows",
+                                       "neurogenomics_r_workflows"),
+                           node_size = "total_downloads",
+                           reverse = TRUE,
+                           save_path = here::here("reports","rworkflows_depgraph.html"))
+```
+ 
+## Save data
+
+```R
+dgc_out$metadata
+
+saveRDS(res, here::here("reports","dgc_out.rds"))
+```
+
+## Count stars/clones/views
+
+```R
+cols <- c("stargazers_count",
+          "clones_count","clones_uniques","indirect_clones_uniques",
+          "views_count","views_uniques","indirect_views_uniques",
+          "total_downloads","indirect_total_downloads",
+          echogithub::r_repos_opts())
+cols <- cols[cols %in% names(res$metadata)]
+
+metadata_counts <- data.frame(
+  total=res$metadata[repo!="rworkflows",
+                         lapply(.SD, sum, na.rm=TRUE),
+                         .SDcols=cols] |> t()
+  )
+metadata_counts
+```
+
+# Show
+
+Hover over each node to show additional metadata.
+
+```{r fig.height=20, fig.width=20}
+htmltools::includeHTML("https://github.com/neurogenomics/rworkflows/raw/master/reports/rworkflows_depgraph.html")
+```
+
+# Identify high-impact packages
+
+Identify the CRAN/Bioc R packages with the most number of downloads.
+This guides which packages would be the most useful
+to focus on implementing `rworkflows` in.
+
+```R
+pkgs <- echogithub::r_repos_downloads(which = c("CRAN","Bioc"),
+                                      nThread = 10)
+
+pkgs <- pkgs[!is.na(downloads),] 
+data.table::setkeyv(pkgs,c("r_repo","downloads"))
+pkgs_top <- pkgs[, tail(.SD, 10), by="r_repo"] 
+methods::show(pkgs_top)
+```
+
+# Session Info 
+
+<details> 
+
+```{r Session Info}
+utils::sessionInfo()
+```
+
+</details>  
+
+<br>
