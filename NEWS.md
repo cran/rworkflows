@@ -1,4 +1,53 @@
+# rworkflows 0.99.5
+
+## New features
+
+* Use actions:
+  - `r-lib/setup-r-dependencies`
+  - `r-lib/setup-tinytex`
+  - `grimbough/bioc-actions/setup-bioc`
+* New workflow args:
+  - `timeout`
+* Update *rworkflows_static.yml*
+* Remove unnecessary lines from *.Rbuildignore*, 
+  as this is now taken care of internally by `r-lib/setup-r-dependencies`
+  - `node_modules$`
+  - `package-lock\.json$`
+  - `package\.json$`
+
+## Bug fixes
+
+* Add `no-check-CRAN` arg to `BiocCheck` step to allow using bioc checks for 
+  packages already on CRAN.
+* Remove redundant "Install package" step (now handled within Dockerfile).
+* Fix `get_hex` in cases where multiple links in *DESCRIPTION* URL.
+
+# rworkflows 0.99.4
+
+## New features
+
+* New functions:
+  - `use_issue_template`
+* Remove unnecessary *Suggests*:
+    - `rvest`
+    - `UpSetR`
+    - `githubinstall`
+    - `BiocManager`
+    
+* Automatically synchronize R and Bioc versions:
+  - `bioc_r_versions`
+  - `construct_runners`
+
+## Bug fixes
+
+* Fix workflows not getting filled with custom parameters.
+  - Add unit tests to ensure this can't happen.
+* Replace `rcmdcheck` `\link` with `\href`
+* `use_badges`: remove unnecessary `ref` arg.
+
 # rworkflows 0.99.3
+
+## New features
 
 * Add new arg `has_latex`
   - Added to action

@@ -16,6 +16,7 @@ use_workflow(
   tag = "@master",
   on = c("push", "pull_request"),
   branches = c("master", "main", "RELEASE_**"),
+  runners = construct_runners(),
   run_bioccheck = FALSE,
   run_rcmdcheck = TRUE,
   as_cran = TRUE,
@@ -24,7 +25,7 @@ use_workflow(
   run_covr = TRUE,
   run_pkgdown = TRUE,
   has_runit = FALSE,
-  has_latex = TRUE,
+  has_latex = FALSE,
   run_docker = FALSE,
   github_token = "${{ secrets.PAT_GITHUB }}",
   docker_user = NULL,
@@ -63,13 +64,18 @@ Can be a branch name on the
 
 \item{branches}{GitHub trigger branches.}
 
+\item{runners}{Runner configurations for multiple Operating Systems (OS), 
+including R versions, Bioc versions, and container sources.
+Can use the \link[rworkflows]{construct_runners} functions to assist 
+in constructing customized runners configurations.}
+
 \item{run_bioccheck}{Run Bioconductor checks using
 \href{https://doi.org/doi:10.18129/B9.bioc.BiocCheck}{
 \code{BiocCheck::BiocCheck()}}. 
 Must pass in order to continue workflow.}
 
 \item{run_rcmdcheck}{Run R CMD checks using 
-\link[rcmdcheck]{rcmdcheck}. 
+\href{https://r-lib.github.io/rcmdcheck/}{\code{rcmdcheck::rcmdcheck()}}. 
 Must pass in order to continue workflow.}
 
 \item{as_cran}{When running R CMD checks, 

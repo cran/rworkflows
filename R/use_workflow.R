@@ -22,12 +22,16 @@
 #'  (e.g. "\@v1").
 #' @param on GitHub trigger conditions.
 #' @param branches GitHub trigger branches.
+#' @param runners Runner configurations for multiple Operating Systems (OS), 
+#' including R versions, Bioc versions, and container sources.
+#' Can use the \link[rworkflows]{construct_runners} functions to assist 
+#' in constructing customized runners configurations.
 #' @param run_bioccheck Run Bioconductor checks using
 #' \href{https://doi.org/doi:10.18129/B9.bioc.BiocCheck}{
 #' \code{BiocCheck::BiocCheck()}}. 
 #' Must pass in order to continue workflow.
 #' @param run_rcmdcheck Run R CMD checks using 
-#' \link[rcmdcheck]{rcmdcheck}. 
+#' \href{https://r-lib.github.io/rcmdcheck/}{\code{rcmdcheck::rcmdcheck()}}. 
 #' Must pass in order to continue workflow.
 #' @param as_cran When running R CMD checks, 
 #' use the '--as-cran' flag to apply CRAN standards
@@ -75,6 +79,7 @@ use_workflow <- function(## action-level args
                          tag="@master",
                          on=c("push","pull_request"),
                          branches=c("master","main","RELEASE_**"),
+                         runners=construct_runners(),
                          ## workflow-level args
                          run_bioccheck=FALSE,
                          run_rcmdcheck=TRUE, 
@@ -84,7 +89,7 @@ use_workflow <- function(## action-level args
                          run_covr=TRUE, 
                          run_pkgdown=TRUE, 
                          has_runit=FALSE, 
-                         has_latex=TRUE,
+                         has_latex=FALSE,
                          run_docker=FALSE,  
                          github_token="${{ secrets.PAT_GITHUB }}",
                          docker_user=NULL,
@@ -102,6 +107,23 @@ use_workflow <- function(## action-level args
   # templateR:::args2vars(use_workflow) 
   # docker_org <- eval(docker_org)  
 
+  #### Check for existing yaml ####
+  path <- file.path(save_dir,paste0(name,".yml"))
+  if(file.exists(path) &&
+     isFALSE(force_new)){
+    messager("Using existing workflow file:",path,v=verbose) 
+    yml <- yaml::read_yaml(path)
+    #### Preview ####
+    if(isTRUE(preview)){
+      cat(yaml::as.yaml(yml)) 
+    }
+    #### Return ####
+    if(isTRUE(return_path)){
+      return(path)
+    } else {
+      return(yml)
+    }
+  }
   ## Custom handler prevents "on" from being converted to TRUE
   yml <- get_yaml(name = name)
   yml <- fill_yaml(yml=yml,
@@ -110,6 +132,7 @@ use_workflow <- function(## action-level args
                    tag=tag,
                    on=on,
                    branches=branches,
+                   runners=runners,
                    ## workflow-level args
                    run_bioccheck=run_bioccheck,
                    run_rcmdcheck=run_rcmdcheck, 
@@ -132,20 +155,21 @@ use_workflow <- function(## action-level args
     cat(yaml::as.yaml(yml)) 
   }
   #### Write to disk ####
-  if(!is.null(save_dir)){ 
-    path <- file.path(save_dir,paste0(name,".yml"))
+  if(!is.null(save_dir)){  
     dir.create(dirname(path),showWarnings = FALSE, recursive = TRUE)
     messager("Saving workflow ==>",path,v=verbose)
     #### Write bools as true/false rather than yes/no (default) ####
     handlers2 <- list('bool#yes' = function(x){"${{ true }}"},
                       'bool#no' = function(x){"${{ false }}"})
-    yml2 <- yaml::yaml.load(yaml::as.yaml(yml), handlers = handlers2)
+    yml2 <- yaml::yaml.load(yaml::as.yaml(yml), 
+                            handlers = handlers2)
     yaml::write_yaml(x = yml2,
                      file = path)
     #### Return ####
     if(isTRUE(return_path)){
       return(path)
     } else {
+      yml <- yaml::read_yaml(path)
       return(yml)
     }
   } else {

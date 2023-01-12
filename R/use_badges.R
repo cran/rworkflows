@@ -53,8 +53,7 @@
 #' @param verbose Print messages.
 #' @param colors Colors to assign to each group of badges (when possible).
 #' @param hex_height Height of the hex sticker in pixels
-#' (when \code{add_hex=TRUE}). 
-#' @inheritParams badger::badge_github_actions
+#' (when \code{add_hex=TRUE}).  
 #' @returns A named list of selected badges in markdown format.
 #' 
 #' @export
@@ -64,8 +63,7 @@
 #'  \dontrun{
 #'  rworkflows::use_badges() 
 #'  }
-use_badges <- function(ref = NULL,
-                       add_hex = TRUE,
+use_badges <- function(add_hex = TRUE,
                        add_actions = "rworkflows",
                        add_doi = NULL, 
                        ## GitHub
@@ -95,6 +93,8 @@ use_badges <- function(ref = NULL,
                                      "cran"="blue",
                                      "default"="blue"),
                        verbose = TRUE){
+  # templateR:::source_all()
+  # templateR:::args2vars(use_badges)
   
   h <- list() 
   #### Hex ####
@@ -124,11 +124,11 @@ use_badges <- function(ref = NULL,
   #### Other metadata ####
   if(isTRUE(add_code_size)){
     messager("Adding code size",v=verbose)
-    h["codesize"] <- badger::badge_code_size(ref = ref)
+    h["codesize"] <- badger::badge_code_size()
   }
   if(isTRUE(add_codecov)){
     messager("Adding codecov.",v=verbose)
-    h["codecov"] <- badger::badge_codecov(branch = branch)
+    h["codecov"] <- badger::badge_codecov(branch = branch) 
   }
   if(isTRUE(add_license)){
     messager("Adding license.",v=verbose)
@@ -191,9 +191,13 @@ use_badges <- function(ref = NULL,
     return(h)
   } else {
     #### Add a break after the first item (usually hex sticker) ####
-    hc <- paste(paste0(h[1],"<br><br>"),
-                paste(h[-1],collapse=sep), 
-                sep=sep) 
+    if(!is.null(h[["hex"]])){
+      hc <- paste(paste0(h["hex"],"<br><br>"),
+                  paste(h[names(h)!="hex"],collapse=sep), 
+                  sep=sep) 
+    } else {
+      hc <- paste(h,collapse=sep)
+    } 
     cat(hc)
     return(hc)
   }
