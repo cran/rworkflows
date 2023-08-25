@@ -5,15 +5,18 @@
 \title{Use badges}
 \usage{
 use_badges(
+  ref = NULL,
   add_hex = TRUE,
   add_actions = "rworkflows",
   add_doi = NULL,
+  add_lifecycle = FALSE,
   add_github_version = TRUE,
   add_commit = TRUE,
   add_code_size = TRUE,
-  add_codecov = TRUE,
   add_license = TRUE,
   add_authors = TRUE,
+  add_codecov = TRUE,
+  add_codecov_graphs = "icicle",
   add_bioc_release = FALSE,
   add_bioc_download_month = FALSE,
   add_bioc_download_total = FALSE,
@@ -25,12 +28,18 @@ use_badges(
   branch = "master",
   as_list = FALSE,
   sep = "\\n",
-  hex_height = 600,
-  colors = list(github = "black", bioc = "green", cran = "blue", default = "blue"),
+  hex_height = 300,
+  codecov_graph_width = 200,
+  colors = list(github = "black", bioc = "green", cran = "black", default = "blue",
+    lifecycle = NULL),
   verbose = TRUE
 )
 }
 \arguments{
+\item{ref}{Reference for a GitHub repository. If \code{NULL}
+(the default), the reference is determined by the URL
+field in the DESCRIPTION file.}
+
 \item{add_hex}{Add a hex sticker. 
 If \code{add_hex=TRUE}, will assume the sticker is located at the following
  relative path: "inst/hex/hex.png". 
@@ -42,7 +51,21 @@ status for with \link[badger]{badge_github_actions}
  (e.g. c("rworkflows","rworkflows_static")).}
 
 \item{add_doi}{Add the DOI of a given package or publication 
-associated with the package. Must be provided as a character string.}
+associated with the package using \link[badger]{badge_doi}. 
+Must be provided as a character string, e.g.: 
+\code{"10.1111/2041-210X.12628"}}
+
+\item{add_lifecycle}{Add package lifecycle stage.
+If not \code{FALSE}, must be a character string indicating 
+one of the following valid lifecycle stage:
+\itemize{
+\item{"stable"}
+\item{"deprecated"}
+\item{"superseded"}
+\item{"experimental"}
+}
+See \href{https://lifecycle.r-lib.org/articles/stages.html}{
+lifecycle.r-lib.org} for further details.}
 
 \item{add_github_version}{Add package version with 
 \link[badger]{badge_github_version}.}
@@ -53,14 +76,26 @@ associated with the package. Must be provided as a character string.}
 \item{add_code_size}{Add code size with
 \link[badger]{badge_code_size}.}
 
-\item{add_codecov}{Add CodeCov status with
-\link[badger]{badge_codecov}.}
-
 \item{add_license}{Add license info with
 \link[badger]{badge_license}.}
 
 \item{add_authors}{Add author names inferred from 
 the \code{DESCRIPTION} file.}
+
+\item{add_codecov}{Add Codecov status with
+\link[badger]{badge_codecov}.
+See the \href{https://docs.codecov.com/docs/status-badges}{Codecov site} 
+for more information about these badges.}
+
+\item{add_codecov_graphs}{Add Codecov graphs visualising results of 
+code coverage tests. Options include:
+\itemize{
+\item{"sunburst"}
+\item{"tree"}
+\item{"icicle"}
+}
+See the \href{https://docs.codecov.com/docs/graphs}{Codecov site} 
+for more information about each plot type.}
 
 \item{add_bioc_release}{Add Bioc release version with 
 \link[badger]{badge_bioc_release}.}
@@ -97,6 +132,9 @@ using \link[base]{paste}.}
 \item{hex_height}{Height of the hex sticker in pixels
 (when \code{add_hex=TRUE}).}
 
+\item{codecov_graph_width}{Width of each Codecov graph in pixels
+(when \code{add_codecov_graph!=FALSE}).}
+
 \item{colors}{Colors to assign to each group of badges (when possible).}
 
 \item{verbose}{Print messages.}
@@ -110,8 +148,5 @@ Uses the package
 \href{https://github.com/GuangchuangYu/badger}{\pkg{badger}}.
 }
 \examples{
-## Causes issues bc examples can't find the  the DESCRIPTION file.
- \dontrun{
- rworkflows::use_badges() 
- }
+badges <- rworkflows::use_badges(ref = "neurogenomics/rworkflows") 
 }

@@ -2,18 +2,21 @@
 #' 
 #' Get author names from the an R package DESCRIPTION file.
 #' @param add_html Add HTML styling to certain fields (e.g "authors").
-#' @inheritParams desc::desc_fields
+#' @inheritParams badger::badge_last_commit
 #' @returns Authors as a raw text or HTML string.
 #' 
 #' @keywords internal
 #' @importFrom desc desc_fields desc_get_field
-get_authors <- function(add_html=FALSE,
-                        file = "."){
+get_authors <- function(ref=NULL,
+                        add_html=FALSE){
   
-  fields <- desc::desc_fields(file=file)
-  author_fields <- grep("Authors*",fields,value = TRUE)
-  if(length(author_fields)>0){
-   authors <- desc::desc_get_field(author_fields[[1]])  
+  d <- get_description(refs = ref, 
+                       paths = NULL)[[1]]
+  if(is.list(d)) d <- d[[1]]
+  if(is.null(d)) return(NULL)
+  field <- grep("Authors",d$fields(),value = TRUE)
+  if(length(field)>0){
+   authors <- d$get_field(field)
    auths <- eval(parse(text = gsub('person','c',authors)));
    authors <- paste(auths[names(auths)=='given'],
                     auths[names(auths)=='family'], collapse = ', ')

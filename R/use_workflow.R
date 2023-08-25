@@ -31,7 +31,7 @@
 #' \code{BiocCheck::BiocCheck()}}. 
 #' Must pass in order to continue workflow.
 #' @param run_rcmdcheck Run R CMD checks using 
-#' \href{https://r-lib.github.io/rcmdcheck/}{\code{rcmdcheck::rcmdcheck()}}. 
+#' \href{https://rcmdcheck.r-lib.org/}{\code{rcmdcheck::rcmdcheck()}}. 
 #' Must pass in order to continue workflow.
 #' @param as_cran When running R CMD checks, 
 #' use the '--as-cran' flag to apply CRAN standards
@@ -64,6 +64,7 @@
 #' @param preview Print the yaml file to the R console.
 #' @param verbose Print messages.
 #' @returns Path or yaml object.
+#' 
 #' @source \href{https://github.com/vubiostat/r-yaml/issues/5}{
 #' Issue reading in "on:"/"y","n" elements}.
 #' @source \href{https://github.com/vubiostat/r-yaml/issues/123}{
@@ -78,7 +79,7 @@ use_workflow <- function(## action-level args
                          name="rworkflows",
                          tag="@master",
                          on=c("push","pull_request"),
-                         branches=c("master","main","RELEASE_**"),
+                         branches=c("master","main","devel","RELEASE_**"),
                          runners=construct_runners(),
                          ## workflow-level args
                          run_bioccheck=FALSE,
@@ -103,9 +104,8 @@ use_workflow <- function(## action-level args
                          force_new=FALSE,
                          preview=FALSE,
                          verbose=TRUE){
-  # templateR:::source_all()
-  # templateR:::args2vars(use_workflow) 
-  # docker_org <- eval(docker_org)  
+  
+  # devoptera::args2vars(use_workflow);  docker_org <- eval(docker_org)   
 
   #### Check for existing yaml ####
   path <- file.path(save_dir,paste0(name,".yml"))

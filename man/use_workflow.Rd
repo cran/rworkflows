@@ -15,7 +15,7 @@ use_workflow(
   name = "rworkflows",
   tag = "@master",
   on = c("push", "pull_request"),
-  branches = c("master", "main", "RELEASE_**"),
+  branches = c("master", "main", "devel", "RELEASE_**"),
   runners = construct_runners(),
   run_bioccheck = FALSE,
   run_rcmdcheck = TRUE,
@@ -75,7 +75,7 @@ in constructing customized runners configurations.}
 Must pass in order to continue workflow.}
 
 \item{run_rcmdcheck}{Run R CMD checks using 
-\href{https://r-lib.github.io/rcmdcheck/}{\code{rcmdcheck::rcmdcheck()}}. 
+\href{https://rcmdcheck.r-lib.org/}{\code{rcmdcheck::rcmdcheck()}}. 
 Must pass in order to continue workflow.}
 
 \item{as_cran}{When running R CMD checks, 
