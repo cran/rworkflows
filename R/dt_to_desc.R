@@ -14,8 +14,11 @@
 #' @importFrom  data.table as.data.table 
 #' @import desc
 #' @examples 
-#'  db <- BiocPkgTools::biocPkgList()
-#'  dl <- dt_to_desc(db=db, refs="GenomicRanges")
+#' #### Updated data ####
+#' # db <- BiocPkgTools::biocPkgList()
+#' #### Static data ####
+#'  db <- rworkflows::biocpkgtools_db
+#'  dl <- dt_to_desc(db=db, refs="ABSSeq")
 dt_to_desc <- function(db,
                        refs=NULL,
                        verbose=TRUE){
@@ -24,11 +27,14 @@ dt_to_desc <- function(db,
   
   refs <- check_refs_names(refs)
   db <- data.table::as.data.table(db)
+  #### Set up refs ####
   if(is.null(refs)){
     refs <- db$Package
   }else{
     refs <- refs[basename(names(refs)) %in% db$Package]
   }
+  #### Name refs ####
+  if(is.null(names(refs))) names(refs) <- refs
   messager("Constructing DESCRIPTION files for",
            formatC(length(refs),big.mark = ","),"R package(s).",v=verbose)
   valid_fields <- desc::cran_valid_fields

@@ -1,4 +1,4 @@
-## ---- echo=FALSE, include=FALSE-----------------------------------------------
+## ----echo=FALSE, include=FALSE------------------------------------------------
 pkg <- read.dcf("../DESCRIPTION", fields = "Package")[1]
 library(pkg, character.only = TRUE)
 
@@ -23,10 +23,10 @@ workflow_static <- rworkflows::use_workflow(name = "rworkflows_static",
                                      ## Use default save_dir in practice
                                      save_dir = tempdir())
 
-## ---- results='asis'----------------------------------------------------------
+## ----results='asis'-----------------------------------------------------------
 badges <- rworkflows::use_badges()
 
-## ---- results='asis'----------------------------------------------------------
+## ----results='asis'-----------------------------------------------------------
 ## Use default save_dir in practice
 dockerfile <- rworkflows::use_dockerfile(save_dir = tempdir()) 
 

@@ -3,7 +3,7 @@
 #' Create workflow that calls an 
 #' \href{https://github.com/neurogenomics/rworkflows}{rworkflows}
 #' \href{https://github.com/features/actions}{GitHub Actions (GHA)}  
-#' @param name Workflow name.
+#' @param template Workflow template name.
 #' \itemize{
 #' \item{"rworkflows"}{A short workflow script that calls
 #'  the GitHub action from the GitHub Marketplace.
@@ -14,6 +14,7 @@
 #' into a static file. Users may need to update this file themselves over time,
 #' though this does allow for a fully customisable workflow.}
 #' }
+#' @param name An arbitrary name to call the workflow.
 #' @param tag Which version of the \code{rworkflows} action to use. 
 #' Can be a branch name on the
 #'  \href{https://github.com/neurogenomics/rworkflows/branches}{
@@ -43,8 +44,28 @@
 #' @param run_docker Whether to build and push a Docker container to DockerHub.
 #' @param has_latex Install a suite of LaTeX dependencies used for 
 #' rendering Sweave (.rnw) and other documentation files.
-#' @param github_token Token for the repo. 
-#' Can be passed in using {{ secrets.PAT_GITHUB }}.
+#' @param tinytex_installer  Which release of tinytex (bundles of LaTeX
+#'  packages) to use. All options can be found 
+#'  \href{https://github.com/rstudio/tinytex-releases/}{here}.
+#'  Note, 'TinyTeX-2' is only available for \code{tinytex_version='daily'}.
+#' @param tinytex_version  Which version of tinytex to use. 
+#' When set to '', uses the latest daily build.
+#' All versions can be found 
+#' \href{https://github.com/rstudio/tinytex-releases/releases}{here}.
+#' @param pandoc_version Which version of pandoc to use.
+#' For details see  
+#' \href{https://github.com/r-lib/actions/tree/v2-branch/setup-pandoc}{here}.
+#' @param github_token GitHub authentication token with permissions to push 
+#' to the R package's GitHub repository. 
+#' Also used to bypass GitHub download limits.
+#' By default, uses \{\{ secrets.GITHUB_TOKEN \}\}
+#' which is automatically set up by GitHub. 
+#' However users can also choose to pass a custom GitHub secret variable
+#' (e.g. \{\{ secrets.PAT_GITHUB \}\}) which allows access to private
+#'  repositories.
+#' Read 
+#' \href{https://docs.github.com/en/actions/security-guides/automatic-token-authentication}{
+#' here for more details}.
 #' @param docker_user DockerHub username.
 #' @param docker_org DockerHub organization name. 
 #' Is the same as \code{docker_user} by default.
@@ -76,7 +97,8 @@
 #' @examples
 #' path <- use_workflow(save_dir = file.path(tempdir(),".github","workflows"))
 use_workflow <- function(## action-level args
-                         name="rworkflows",
+                         template="rworkflows",
+                         name=template,
                          tag="@master",
                          on=c("push","pull_request"),
                          branches=c("master","main","devel","RELEASE_**"),
@@ -91,8 +113,11 @@ use_workflow <- function(## action-level args
                          run_pkgdown=TRUE, 
                          has_runit=FALSE, 
                          has_latex=FALSE,
+                         tinytex_installer='TinyTeX-1',
+                         tinytex_version='',
+                         pandoc_version='2.19',
                          run_docker=FALSE,  
-                         github_token="${{ secrets.PAT_GITHUB }}",
+                         github_token="${{ secrets.GITHUB_TOKEN }}",
                          docker_user=NULL,
                          docker_org=docker_user,
                          docker_token="${{ secrets.DOCKER_TOKEN }}",
@@ -124,11 +149,13 @@ use_workflow <- function(## action-level args
       return(yml)
     }
   }
-  ## Custom handler prevents "on" from being converted to TRUE
-  yml <- get_yaml(name = name)
+  #### Read yaml template ####
+  yml <- get_yaml(template = template)
+  #### Fill yaml template ####
   yml <- fill_yaml(yml=yml,
                    ## action-level args
                    name=name,
+                   template=template,
                    tag=tag,
                    on=on,
                    branches=branches,
@@ -143,6 +170,9 @@ use_workflow <- function(## action-level args
                    run_pkgdown=run_pkgdown, 
                    has_runit=has_runit, 
                    has_latex=has_latex,
+                   tinytex_installer=tinytex_installer,
+                   tinytex_version=tinytex_version,
+                   pandoc_version=pandoc_version,
                    run_docker=run_docker,  
                    github_token=github_token,
                    docker_user=docker_user,
@@ -156,15 +186,9 @@ use_workflow <- function(## action-level args
   }
   #### Write to disk ####
   if(!is.null(save_dir)){  
-    dir.create(dirname(path),showWarnings = FALSE, recursive = TRUE)
-    messager("Saving workflow ==>",path,v=verbose)
-    #### Write bools as true/false rather than yes/no (default) ####
-    handlers2 <- list('bool#yes' = function(x){"${{ true }}"},
-                      'bool#no' = function(x){"${{ false }}"})
-    yml2 <- yaml::yaml.load(yaml::as.yaml(yml), 
-                            handlers = handlers2)
-    yaml::write_yaml(x = yml2,
-                     file = path)
+    save_yaml(yml=yml,
+              path=path,
+              verbose=verbose)
     #### Return ####
     if(isTRUE(return_path)){
       return(path)

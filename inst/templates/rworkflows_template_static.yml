@@ -3,6 +3,8 @@ on:
 env:
 jobs:
   rworkflows_static:
+    permissions: 
+      contents: write
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
     container: ${{ matrix.config.cont }} 
@@ -19,6 +21,5 @@ jobs:
       TZ: UTC 
       GITHUB_REPO: ${{ github.repository }}
       RGL_USE_NULL: TRUE
-
     steps:
       ## Fill in steps programmatically

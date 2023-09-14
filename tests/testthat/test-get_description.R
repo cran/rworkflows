@@ -30,8 +30,9 @@ test_that("get_description works", {
   utils::download.file("https://github.com/neurogenomics/MAGMA_Celltyping/raw/master/DESCRIPTION",tmp)
   d9 <- get_description(refs="MAGMA_Celltyping",
                         paths=tmp) 
-  d10 <- get_description(refs="ggtree", 
+  d10 <- get_description(refs = "ABSSeq", 
                          use_wd = FALSE,
+                         db = rworkflows::biocpkgtools_db,
                          use_repos = TRUE)
   d11 <- get_description(refs = d1)
   d12 <- get_description(paths = d1)
@@ -62,10 +63,34 @@ test_that("get_description works", {
   }
   
   #### Search CRAN/Bioc repos ####
-  d13 <- get_description(refs="neurogenomics/rworkflows", 
-                         use_repos = TRUE) 
-  testthat::expect_equal(d13[[1]],
-                         d1[[1]])
+  ## Don't run on CRAN due to issues on their server: 
+  ## https://github.com/neurogenomics/rworkflows/issues/65
+  if (is_gha() | is_rstudio()) {
+    #### Run first time ####
+    d13a <- get_description(refs="ABSSeq",
+                           db = rworkflows::biocpkgtools_db, 
+                           use_repos = TRUE) 
+    testthat::expect_equal(d13a[[1]],
+                           d1[[1]])
+    #### Rerun to use stored DESCRITPION files ####
+    d13b <- get_description(refs="ABSSeq",
+                           db = rworkflows::biocpkgtools_db, 
+                           use_repos = TRUE) 
+    testthat::expect_equal(d13b[[1]],
+                           d1[[1]])
+    #### Unable to find pkg info ####
+    testthat::expect_null(
+      get_description(refs="typooo",
+                      db = rworkflows::biocpkgtools_db, 
+                      use_repos = TRUE) 
+    )
+    #### Gather remote data ####
+    d13c <- get_description(refs="ABSSeq",
+                            db = NULL, 
+                            use_repos = TRUE) 
+    testthat::expect_equal(d13c[[1]],
+                           d1[[1]])
+  }  
   #### Search GitHub repos ####
   d14 <- get_description(refs="neurogenomics/orthogene",
                          use_wd = FALSE) 
