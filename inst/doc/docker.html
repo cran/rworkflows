@@ -52,7 +52,7 @@ h4 {font-size: 18px;}
 h5 {font-size: 16px;}
 h6 {font-size: 12px;}
 code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-pre:not([class]) { background-color: white }</style>
+</style>
 <script>
 
 /**
@@ -508,6 +508,10 @@ code > span.paren { color: #000000;}
 padding-left: 65px;
 }
 
+.references {
+padding-right: 150px;
+}
+
 .margin-toggle {
 display: none;
 }
@@ -521,6 +525,8 @@ width: auto;
 p {
 padding-left: 0;
 padding-right: 0;
+}
+.references { padding-right: 0;
 }
 h1, h2, h3, h4, h5, h6 {
 width: 100%;
@@ -697,7 +703,7 @@ function toggle_visibility(id1) {
 <h1 class="title toc-ignore">Docker/Singularity Containers</h1>
 <p class="author-name"><h4>Authors: <i>Brian Schilder, Alan Murphy, Nathan Skene</i></h4></p>
 <h4 class="date"><h4><br />
-Vignette updated: <i>Sep-14-2023</i><br />
+Vignette updated: <i>Nov-02-2023</i><br />
 </h4></h4>
 
 </div>
@@ -705,36 +711,31 @@ Vignette updated: <i>Sep-14-2023</i><br />
 <h1>Contents</h1>
 <div id="TOC">
 <ul>
-<li><a href="#dockerhub" id="toc-dockerhub"><span class="toc-section-number">1</span> DockerHub</a>
+<li><a href="#installation" id="toc-installation"><span class="toc-section-number">1</span> Installation</a>
 <ul>
-<li><a href="#installation" id="toc-installation"><span class="toc-section-number">1.1</span> Installation</a></li>
-<li><a href="#method-1-via-docker" id="toc-method-1-via-docker"><span class="toc-section-number">1.2</span> Method 1: via Docker</a>
+<li><a href="#method-1-via-docker" id="toc-method-1-via-docker"><span class="toc-section-number">1.1</span> Method 1: via Docker</a>
 <ul>
-<li><a href="#notes" id="toc-notes"><span class="toc-section-number">1.2.1</span> NOTES</a></li>
+<li><a href="#notes" id="toc-notes"><span class="toc-section-number">1.1.1</span> NOTES</a></li>
 </ul></li>
-<li><a href="#method-2-via-singularity" id="toc-method-2-via-singularity"><span class="toc-section-number">1.3</span> Method 2: via Singularity</a></li>
-<li><a href="#usage" id="toc-usage"><span class="toc-section-number">1.4</span> Usage</a></li>
+<li><a href="#method-2-via-singularity" id="toc-method-2-via-singularity"><span class="toc-section-number">1.2</span> Method 2: via Singularity</a></li>
 </ul></li>
-<li><a href="#session-info" id="toc-session-info"><span class="toc-section-number">2</span> Session Info</a></li>
+<li><a href="#usage" id="toc-usage"><span class="toc-section-number">2</span> Usage</a></li>
+<li><a href="#session-info" id="toc-session-info"><span class="toc-section-number">3</span> Session Info</a></li>
 </ul>
 </div>
 
-<div id="dockerhub" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> DockerHub</h1>
-<p>rworkflows is now available via
-<a href="https://hub.docker.com/repository/docker/neurogenomicslab/rworkflows">DockerHub</a>
+<div id="installation" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Installation</h1>
+<p>rworkflows is now available via <a href="https://ghcr.io/ghcr.io/neurogenomics/rworkflows">ghcr.io</a>
 as a containerised environment with Rstudio and
 all necessary dependencies pre-installed.</p>
-<div id="installation" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Installation</h2>
-</div>
-<div id="method-1-via-docker" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Method 1: via Docker</h2>
+<div id="method-1-via-docker" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Method 1: via Docker</h2>
 <p>First, <a href="https://docs.docker.com/get-docker/">install Docker</a>
 if you have not already.</p>
 <p>Create an image of the <a href="https://www.docker.com/">Docker</a> container
 in command line:</p>
-<pre><code>docker pull neurogenomicslab/rworkflows</code></pre>
+<pre><code>docker pull ghcr.io/neurogenomics/rworkflows</code></pre>
 <p>Once the image has been created, you can launch it with:</p>
 <pre><code>docker run \
   -d \
@@ -743,9 +744,9 @@ in command line:</p>
   -v ~/Desktop:/Desktop \
   -v /Volumes:/Volumes \
   -p 8900:8787 \
-  neurogenomicslab/rworkflows</code></pre>
-<div id="notes" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> NOTES</h3>
+  ghcr.io/neurogenomics/rworkflows</code></pre>
+<div id="notes" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> NOTES</h3>
 <ul>
 <li>Make sure to replace <code>&lt;your_password&gt;</code> above with whatever you want your password to be.<br />
 </li>
@@ -760,59 +761,64 @@ to easily manage your containers.</li>
 </ul>
 </div>
 </div>
-<div id="method-2-via-singularity" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Method 2: via Singularity</h2>
+<div id="method-2-via-singularity" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Method 2: via Singularity</h2>
 <p>If you are using a system that does not allow Docker
 (as is the case for many institutional computing clusters),
 you can instead <a href="https://docs.sylabs.io/guides/2.6/user-guide/singularity_and_docker.html">install Docker images via Singularity</a>.</p>
-<pre><code>singularity pull docker://neurogenomicslab/rworkflows</code></pre>
+<pre><code>singularity pull docker://ghcr.io/neurogenomics/rworkflows</code></pre>
+<p>For troubleshooting, see the <a href="https://docs.sylabs.io/guides/latest/user-guide/singularity_and_docker.html#github-container-registry">Singularity documentation</a>.</p>
 </div>
-<div id="usage" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Usage</h2>
+</div>
+<div id="usage" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Usage</h1>
 <p>Finally, launch the containerised Rstudio by entering the
 following URL in any web browser:
 <em>http://localhost:8900/</em></p>
 <p>Login using the credentials set during the Installation steps.</p>
 </div>
-</div>
-<div id="session-info" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Session Info</h1>
+<div id="session-info" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Session Info</h1>
 <details>
 <pre class="r"><code>utils::sessionInfo()</code></pre>
-<pre><code>## R version 4.2.1 (2022-06-23)
-## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Big Sur ... 10.16
+<pre><code>## R version 4.3.1 (2023-06-16)
+## Platform: aarch64-apple-darwin20 (64-bit)
+## Running under: macOS Sonoma 14.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
 ## [1] C/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+## 
+## time zone: Europe/London
+## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] data.table_1.14.8  rworkflows_0.99.13 BiocStyle_2.26.0  
+## [1] data.table_1.14.8 rworkflows_1.0.0  BiocStyle_2.29.2 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bslib_0.4.2         compiler_4.2.1      pillar_1.9.0       
-##  [4] RColorBrewer_1.1-3  BiocManager_1.30.20 jquerylib_0.1.4    
-##  [7] yulab.utils_0.0.6   tools_4.2.1         digest_0.6.31      
-## [10] jsonlite_1.8.4      evaluate_0.21       lifecycle_1.0.3    
-## [13] tibble_3.2.1        gtable_0.3.3        pkgconfig_2.0.3    
-## [16] rlang_1.1.1         cli_3.6.1           rvcheck_0.2.1      
-## [19] yaml_2.3.7          xfun_0.40           fastmap_1.1.1      
-## [22] dplyr_1.1.2         knitr_1.44          desc_1.4.2         
-## [25] generics_0.1.3      sass_0.4.6          vctrs_0.6.3        
-## [28] dlstats_0.1.7       rprojroot_2.0.3     grid_4.2.1         
-## [31] tidyselect_1.2.0    here_1.0.1          glue_1.6.2         
-## [34] R6_2.5.1            fansi_1.0.4         rmarkdown_2.22     
-## [37] bookdown_0.34       ggplot2_3.4.2       badger_0.2.3       
-## [40] magrittr_2.0.3      scales_1.2.1        htmltools_0.5.5    
-## [43] colorspace_2.1-0    renv_0.17.3         utf8_1.2.3         
-## [46] munsell_0.5.0       cachem_1.0.8</code></pre>
+##  [1] gtable_0.3.4        jsonlite_1.8.7      renv_1.0.3         
+##  [4] dplyr_1.1.3         compiler_4.3.1      BiocManager_1.30.22
+##  [7] tidyselect_1.2.0    jquerylib_0.1.4     rvcheck_0.2.1      
+## [10] scales_1.2.1        yaml_2.3.7          fastmap_1.1.1      
+## [13] here_1.0.1          ggplot2_3.4.4       R6_2.5.1           
+## [16] generics_0.1.3      knitr_1.44          yulab.utils_0.1.0  
+## [19] tibble_3.2.1        bookdown_0.36       desc_1.4.2         
+## [22] dlstats_0.1.7       rprojroot_2.0.3     munsell_0.5.0      
+## [25] bslib_0.5.1         pillar_1.9.0        RColorBrewer_1.1-3 
+## [28] rlang_1.1.1         utf8_1.2.4          cachem_1.0.8       
+## [31] badger_0.2.3        xfun_0.40           fs_1.6.3           
+## [34] sass_0.4.7          memoise_2.0.1.9000  cli_3.6.1          
+## [37] magrittr_2.0.3      digest_0.6.33       grid_4.3.1         
+## [40] lifecycle_1.0.3     vctrs_0.6.4         evaluate_0.22      
+## [43] glue_1.6.2          fansi_1.0.5         colorspace_2.1-0   
+## [46] rmarkdown_2.25      tools_4.3.1         pkgconfig_2.0.3    
+## [49] htmltools_0.5.6.1</code></pre>
 </details>
 <p><br></p>
 </div>

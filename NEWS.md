@@ -1,3 +1,92 @@
+# rworkflows 1.0.0
+
+## New features
+
+* Synchronise `rworkflows` package versioning with `rworkflows` action 
+Release versioning.
+* `use_vignette_docker`/`use_vignette_getstarted`
+  - Autofill `package` arg if not provided.
+  
+## Bug fixes
+
+* *inst/template/docker.Rmd*
+  - Remove the need to include `construct_cont`, 
+    as not everyone will have `rworkfows` installed on the machine where
+    the vignette is being rendered.
+* *use_vignette_docker*
+  - Add *-autolink_bare_uris* bit to avoid CRAN check errors.
+
+# rworkflows 0.99.14
+
+## New features
+
+* Add step to enable conda envs: #78
+  - Add subfunction: `gha_python_versions()` within `construct_runners`
+  - Add new *action.yml* args:
+    - `miniforge_variant`
+    - `miniforge_version`
+    - `activate_environment`
+    - `environment_file`
+    - `channels`
+  - New function to construct conda env yaml files:
+    - `construct_conda_yml`
+  - New unit tests to test `construct_conda_yml` and building conda envs 
+  from the generated yamls.
+* `fill_yaml` 
+  - Add subfunction `is_default`
+* *actions.yml*:
+  - Add `force=TRUE` to the `remotes::install_local` steps. #86
+  - Add `runforesight/workflow-telemetry-action` step.
+  - Avoid setting `rspm` explicitly by default.
+* `construct_cont`:
+  - Make registry explicit.
+  - New arg: `default_registry`
+  - New subfunction: `check_registry`
+* Add `docker_registry` arg to let users choose which registry to push to. 
+  Defaults to "ghcr.io" instead of "docker.io" so that no additional credentials 
+  are needed.
+  - *actions.yml*
+  - `use_workflow`
+* `get_github_url_desc`
+  - Improve logic to catch more GH URLs.
+* *vignettes/depgraph.Rmd*
+  - Update plots with new data and resave PNG.
+* New arg `free_diskspace`
+  - *actions.yml*
+  - `use_workflow`
+* `use_workflow`
+  - `template` arg can now be "rworkflows_static:dev" to use the "dev" branch's 
+  version of *action.yml* as a workflow template.
+* Add *.devcontainer/devcontainer.json*
+* `use_vignette_docker`
+  - New helper func: `infer_docker_org`
+
+## Bug fixes
+
+* `no visible global function definition for internal function check_miniconda_args`
+  - This weird error only came up during Rstudio R CMD checks. 
+  The function `check_miniconda_args` was clearly defined in its own file. 
+  The only way to fix it was copying the function into the same one where it
+  was called `fill_yaml`.
+  - Thought it might be a permissions issues with *check_miniconda_args.R* but 
+  the permissions are identical with all the others.
+* *action.yml*
+  - Remove unnecessary  export:`echo "GITHUB_TOKEN=${{ inputs.GITHUB_TOKEN }}" >> $GITHUB_ENV`
+  - Fix `runforesight/workflow-telemetry-action` step and move to top.
+* `infer_deps` 
+  - Pass `infer_deps` the *DESCRIPTION* path directly 
+    within the `fill_description` func. 
+  - Fix unit tests.
+* `conda_*`
+  - Try to get reticularte to find the path to conda 
+  installed by `setup-miniconda`.
+* New func: `use_codespace`
+  - Create dev container config file.
+* *.Rprofile*
+  - Added to avoid CRAN issues with bioc packages.
+
+
+
 # rworkflows 0.99.13
 
 ## New features
@@ -5,7 +94,7 @@
 * Merge PR #66 by @js2264 to eliminate the PAT_GITHUB secret setup step.
 * Merge PR #71 by @js2264 to skip vignettes when building if `run_vignettes`.
 * Add fun emojis to action.
-* Add vignette for checking Sweave (.Rnw) files can be rendered.
+* Add vignette for checking Sweave (.Rnw) files can be rendered. 
 * *action.yml*
   - Add new args to control latex: 
     `tinytex_installer`, `tinytex_version`, `pandoc_version`
@@ -35,6 +124,7 @@
   - Add subfunction `omit_if_default` to omit tinytex args from yaml.
 * `is_rstudio`: new interal helper function.
 * Update *rworkflows_static.yml*
+* Sync Docker vignettes with registry #99
 
 ## Bug fixes
 

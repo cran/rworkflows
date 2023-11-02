@@ -6,7 +6,7 @@
 #' R package template. 
 #' For any given field, set its corresponding argument as follows 
 #' to get certain behaviour:
-#' \itemize{
+#' \describe{
 #' \item{\code{NULL}: }{Keeps the current value.}
 #' \item{\code{NA}: }{Removes the field from the 
 #' \emph{DESCRIPTION} file entirely.}
@@ -94,9 +94,11 @@ fill_description <- function(path = here::here("DESCRIPTION"),
                                                      depth = 2)$r,
                                ")"
                              ),
-                             imports = infer_deps(which = "Imports",
+                             imports = infer_deps(path = path,
+                                                  which = "Imports",
                                                   add_newlines = TRUE),
-                             suggests = infer_deps(which = "Suggests",
+                             suggests = infer_deps(path = path,
+                                                   which = "Suggests",
                                                    add_newlines = TRUE),
                              remotes = NULL,
                              version = NULL,
