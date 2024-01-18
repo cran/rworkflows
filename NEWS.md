@@ -1,3 +1,21 @@
+# rworkflows 1.0.1
+
+## New features
+
+* Change command "\nodocker" to "[nodocker]" for consistency with other commands. 
+
+## Bug fixes
+
+* *action.yml* 
+  - `repository: ${{ github.repository }}` --> `repository: ${{ env.packageName }}`
+* CRAN: 
+  - Add convenient `testthat` function `skip_if_offline`.
+* Reduce package size by making vignettes `rmarkdown::html_vignette`
+  instead of `BiocStyle::html_document`.
+*  URL: https://github.com/runforesight/workflow-telemetry-action (moved to https://github.com/catchpoint/workflow-telemetry-action)
+* Skip tests that are sensitive to working directory location 
+  (which can cause issues when running `devtools::test_coverage()` in the terminal) #112
+
 # rworkflows 1.0.0
 
 ## New features
@@ -15,6 +33,7 @@ Release versioning.
     the vignette is being rendered.
 * *use_vignette_docker*
   - Add *-autolink_bare_uris* bit to avoid CRAN check errors.
+* Change `\itemize` --> `describe` to avoid CRAN check errors.
 
 # rworkflows 0.99.14
 

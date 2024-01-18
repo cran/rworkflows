@@ -8,7 +8,7 @@ checks](https://badges.cranchecks.info/summary/rworkflows.svg)](https://cran.r-p
 GPL-3](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 [![](https://img.shields.io/badge/doi-https://doi.org/10.5281/zenodo.10048573-blue.svg)](https://doi.org/https://doi.org/10.5281/zenodo.10048573)
 <br>
-[![](https://img.shields.io/badge/devel%20version-1.0.0-black.svg)](https://github.com/neurogenomics/rworkflows)
+[![](https://img.shields.io/badge/devel%20version-1.0.1-black.svg)](https://github.com/neurogenomics/rworkflows)
 [![](https://img.shields.io/github/languages/code-size/neurogenomics/rworkflows.svg)](https://github.com/neurogenomics/rworkflows)
 [![](https://img.shields.io/github/last-commit/neurogenomics/rworkflows.svg)](https://github.com/neurogenomics/rworkflows/commits/master)
 <br> [![R build
@@ -24,8 +24,18 @@ status](https://github.com/neurogenomics/rworkflows/workflows/rworkflows_dev/bad
 Authors: <i>Brian Schilder, Alan Murphy, Nathan Skene</i>  
 </h4>
 <h4>  
-README updated: <i>Nov-01-2023</i>  
+README updated: <i>Jan-02-2024</i>  
 </h4>
+
+## Citation
+
+If you use `rworkflows`, please cite:
+
+<!-- Modify this by editing the file: inst/CITATION  -->
+
+> Schilder, B.M., Murphy, A.E. & Skene, N.G. rworkflows: automating
+> reproducible practices for the R community. Nat Commun 15, 149 (2024).
+> <https://doi.org/10.1038/s41467-023-44484-5>
 
 ## Intro
 
@@ -79,11 +89,11 @@ options to enable/disable/modify each step):
     package.  
 10. 🐳 Pushes a [**Docker**](https://www.docker.com/) container (with
     [**Rstudio**](https://posit.co/) and all dependencies pre-installed)
-    to your choice of container registry (e.g. [GitHub Container
-    Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry),
+    to your choice of container registry (e.g. [**GitHub Container
+    Registry**](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry),
     [**DockerHub**](https://hub.docker.com/)).
 11. 🔭 Generates [workflow
-    telemetry](https://github.com/runforesight/workflow-telemetry-action)
+    telemetry](https://github.com/catchpoint/workflow-telemetry-action)
     report.  
 12. 🎖 Updates relevant badges added to your README with
     `rworkflows::use_badges()`.
@@ -180,18 +190,6 @@ Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets):
   for details.  
 - `DOCKER_TOKEN` \[Optional\]: Allows GitHub Actions to push to a
   [DockerHub](https://hub.docker.com) account.
-
-## Citation
-
-If you use `rworkflows`, please cite:
-
-<!-- Modify this by editing the file: inst/CITATION  -->
-
-> Brian M. Schilder, Alan E. Murphy, & Nathan G. Skene (2023) The
-> rworkflows suite: automated continuous integration for quality
-> checking, documentation website creation, and containerised deployment
-> of R packages, *Research Square*;
-> <https://doi.org/10.21203/rs.3.rs-2399015/v1>
 
 ## Acknowledgments
 
@@ -290,7 +288,7 @@ utils::sessionInfo()
 
     ## R version 4.3.1 (2023-06-16)
     ## Platform: aarch64-apple-darwin20 (64-bit)
-    ## Running under: macOS Sonoma 14.1
+    ## Running under: macOS Sonoma 14.2.1
     ## 
     ## Matrix products: default
     ## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
@@ -299,28 +297,28 @@ utils::sessionInfo()
     ## locale:
     ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     ## 
-    ## time zone: Europe/London
+    ## time zone: America/New_York
     ## tzcode source: internal
     ## 
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] gtable_0.3.4        jsonlite_1.8.7      renv_1.0.3         
-    ##  [4] dplyr_1.1.3         compiler_4.3.1      BiocManager_1.30.22
-    ##  [7] tidyselect_1.2.0    rvcheck_0.2.1       scales_1.2.1       
-    ## [10] yaml_2.3.7          fastmap_1.1.1       here_1.0.1         
+    ##  [1] gtable_0.3.4        jsonlite_1.8.8      renv_1.0.3         
+    ##  [4] dplyr_1.1.4         compiler_4.3.1      BiocManager_1.30.22
+    ##  [7] tidyselect_1.2.0    rvcheck_0.2.1       scales_1.3.0       
+    ## [10] yaml_2.3.8          fastmap_1.1.1       here_1.0.1         
     ## [13] ggplot2_3.4.4       R6_2.5.1            generics_0.1.3     
-    ## [16] knitr_1.44          yulab.utils_0.1.0   tibble_3.2.1       
-    ## [19] desc_1.4.2          dlstats_0.1.7       rprojroot_2.0.3    
+    ## [16] knitr_1.45          yulab.utils_0.1.2   tibble_3.2.1       
+    ## [19] desc_1.4.3          dlstats_0.1.7       rprojroot_2.0.4    
     ## [22] munsell_0.5.0       pillar_1.9.0        RColorBrewer_1.1-3 
-    ## [25] rlang_1.1.1         utf8_1.2.4          cachem_1.0.8       
-    ## [28] badger_0.2.3        xfun_0.40           fs_1.6.3           
-    ## [31] memoise_2.0.1.9000  cli_3.6.1           magrittr_2.0.3     
-    ## [34] rworkflows_1.0.0    digest_0.6.33       grid_4.3.1         
-    ## [37] rstudioapi_0.15.0   lifecycle_1.0.3     vctrs_0.6.4        
-    ## [40] data.table_1.14.8   evaluate_0.22       glue_1.6.2         
-    ## [43] fansi_1.0.5         colorspace_2.1-0    rmarkdown_2.25     
-    ## [46] tools_4.3.1         pkgconfig_2.0.3     htmltools_0.5.6.1
+    ## [25] rlang_1.1.2         utf8_1.2.4          cachem_1.0.8       
+    ## [28] badger_0.2.3        xfun_0.41           fs_1.6.3           
+    ## [31] memoise_2.0.1.9000  cli_3.6.2           magrittr_2.0.3     
+    ## [34] rworkflows_1.0.1    digest_0.6.33       grid_4.3.1         
+    ## [37] rstudioapi_0.15.0   lifecycle_1.0.4     vctrs_0.6.5        
+    ## [40] data.table_1.14.10  evaluate_0.23       glue_1.6.2         
+    ## [43] fansi_1.0.6         colorspace_2.1-0    rmarkdown_2.25     
+    ## [46] tools_4.3.1         pkgconfig_2.0.3     htmltools_0.5.7
 
 </details>
