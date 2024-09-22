@@ -26,8 +26,7 @@ test_that("check_cont works", {
   #### Include registry ####
   testthat::expect_no_warning(
     check_cont(cont = "ghcr.io/bioconductor/bioconductor_docker")
-  )
-  
+  ) 
   testthat::expect_no_warning(
     check_cont(cont = "docker.io/bioconductor/bioconductor_docker:devel")
   )
