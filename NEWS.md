@@ -1,8 +1,38 @@
+# rworkflows 1.0.6
+
+## Bug fixes
+
+* Update to `actions/upload-artifact@v4` as v3 is now deprecated. 
+  Contributed in PR #139
+
+# rworkflows 1.0.5
+
+## New features
+
+* New arg `force_install` allows users to bypass cache while installing
+  dependencies.
+
+# rworkflows 1.0.4
+
+## Bug fixes
+
+* Remove deprecated package (`pandoc-citeproc`) from Dockerfile.
+
+# rworkflows 1.0.3
+
+## New features
+
+* New arg `run_telemetry` allows users to disable workflow telemetry.
+
+## Bug fixes
+
+* Add `GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}` to all code check steps.
+
 # rworkflows 1.0.2
 
 ## New features
 
-* Update to R 4.4.1 and ensure everything stil works.
+* Update to R 4.4.1 and ensure everything still works.
 * Update *rworkflows.yml* to use new Bioc release, 3.19
 
 ## Bug fixes
