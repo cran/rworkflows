@@ -1,11 +1,11 @@
 Package: rworkflows
 Type: Package
 Title: Test, Document, Containerise, and Deploy R Packages
-Version: 1.0.8
+Version: 1.0.10
 Authors@R: 
     c(person(given = "Brian",
            family = "Schilder",
-           role = c("aut","cre"),
+           role = c("aut"),
            email = "brian_schilder@alumni.brown.edu",
            comment = c(ORCID = "0000-0001-5949-2191")),
       person(given = "Alan",
@@ -15,7 +15,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-2487-8753")),
       person(given = "Hiranyamaya (Hiru)",
            family = "Dash",
-           role = c("ctb"),
+           role = c("ctb","cre"),
            email = "hdash.work@gmail.com",
            comment = c(ORCID = "0009-0005-5514-505X")),
       person(given = "Nathan",
@@ -38,7 +38,7 @@ BugReports: https://github.com/neurogenomics/rworkflows/issues
 Encoding: UTF-8
 biocViews: Software, WorkflowManagement
 Depends: R (>= 4.1)
-Imports: stats, here, yaml, utils, desc, badger, renv, tools, methods,
+Imports: stats, here, yaml, utils, desc, badger, renv, methods,
         BiocManager, data.table
 Suggests: markdown, rmarkdown, remotes, knitr, covr, testthat (>=
         3.0.0), htmltools, jsonlite, BiocStyle, BiocPkgTools,
@@ -49,13 +49,12 @@ Config/testthat/edition: 3
 LazyData: true
 RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2026-01-09 00:33:05 UTC; bschilder
-Author: Brian Schilder [aut, cre] (ORCID:
-    <https://orcid.org/0000-0001-5949-2191>),
+Packaged: 2026-03-23 11:24:18 UTC; hdash
+Author: Brian Schilder [aut] (ORCID: <https://orcid.org/0000-0001-5949-2191>),
   Alan Murphy [aut, ctb] (ORCID: <https://orcid.org/0000-0002-2487-8753>),
-  Hiranyamaya (Hiru) Dash [ctb] (ORCID:
+  Hiranyamaya (Hiru) Dash [ctb, cre] (ORCID:
     <https://orcid.org/0009-0005-5514-505X>),
   Nathan Skene [aut] (ORCID: <https://orcid.org/0000-0002-6807-3180>)
-Maintainer: Brian Schilder <brian_schilder@alumni.brown.edu>
+Maintainer: Hiranyamaya (Hiru) Dash <hdash.work@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-01-09 01:00:02 UTC
+Date/Publication: 2026-03-23 12:10:02 UTC
