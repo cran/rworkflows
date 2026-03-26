@@ -1,3 +1,18 @@
+# rworkflows 1.0.11
+
+## Bug Fixes
+
+* Fix `use_workflow(template="rworkflows_static")` not generating the `timeout`,
+`force_install`, `run_telemetry`, and `free_diskspace` environment variables. (#146)
+* Add `as.integer()` coercion to all R `options(timeout=...)` calls for robustness.
+These were causing `download.file()` to fail with `cannot download any files`
+when the timeout was not properly converted to a numeric value.
+
+## Miscellaneous
+
+* `construct_authors()`: Add test case compatible for both new and old versions
+of R.
+
 # rworkflows 1.0.10
 
 ## Miscellaneous

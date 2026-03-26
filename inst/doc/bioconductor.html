@@ -344,7 +344,7 @@ Authors: <i>Brian Schilder, Alan Murphy, Hiranyamaya (Hiru) Dash, Nathan
 Skene</i><br />
 </h4></h4>
 <h4 class="date"><h4><br />
-Vignette updated: <i>Mar-23-2026</i><br />
+Vignette updated: <i>Mar-24-2026</i><br />
 </h4></h4>
 
 
@@ -421,8 +421,12 @@ Actions from the <code>devel</code> branch.</p>
 ##         runner_os: ${{ runner.os }}
 ##         cache_version: cache-v1
 ##         ncpus: 2.0
-##         docker_registry: ghcr.io</code></pre>
-<pre><code>## Saving yaml ==&gt; /var/folders/5d/096bjcsd4l962yck4bj923zm0000gn/T//RtmpYFSA6v/rworkflows.devel.yml</code></pre>
+##         docker_registry: ghcr.io
+##         timeout: 2000.0
+##         force_install: no
+##         run_telemetry: yes
+##         free_diskspace: no</code></pre>
+<pre><code>## Saving yaml ==&gt; /var/folders/5d/096bjcsd4l962yck4bj923zm0000gn/T//RtmpqqXyu0/rworkflows.devel.yml</code></pre>
 </div>
 <div id="release_3_17-branch" class="section level2">
 <h2><code>RELEASE_3_17</code> branch</h2>
@@ -487,8 +491,12 @@ GitHub Actions from the <code>RELEASE_3_17</code> branch.</p>
 ##         runner_os: ${{ runner.os }}
 ##         cache_version: cache-v1
 ##         ncpus: 2.0
-##         docker_registry: ghcr.io</code></pre>
-<pre><code>## Saving yaml ==&gt; /var/folders/5d/096bjcsd4l962yck4bj923zm0000gn/T//RtmpYFSA6v/rworkflows.RELEASE_3_17.yml</code></pre>
+##         docker_registry: ghcr.io
+##         timeout: 2000.0
+##         force_install: no
+##         run_telemetry: yes
+##         free_diskspace: no</code></pre>
+<pre><code>## Saving yaml ==&gt; /var/folders/5d/096bjcsd4l962yck4bj923zm0000gn/T//RtmpqqXyu0/rworkflows.RELEASE_3_17.yml</code></pre>
 </div>
 <div id="release_-branches" class="section level2">
 <h2><code>RELEASE_*</code> branches</h2>
@@ -526,7 +534,7 @@ launching GitHub Actions from any <code>RELEASE_*</code> branch.</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] rworkflows_1.0.10
+## [1] rworkflows_1.0.11
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] gtable_0.3.6        jsonlite_2.0.0      renv_1.1.7         
