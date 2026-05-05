@@ -1,11 +1,17 @@
 ## ----echo=FALSE, include=FALSE------------------------------------------------
-pkg <- read.dcf("../DESCRIPTION", fields = "Package")[1]
+pkg <- "rworkflows"
 library(pkg, character.only = TRUE)
+## Skip internet-dependent chunks gracefully when offline
+has_net <- requireNamespace("curl", quietly = TRUE) && curl::has_internet()
+if (!has_net) {
+  message("No internet connection available; ",
+          "internet-dependent chunks will be skipped.")
+}
 
-## -----------------------------------------------------------------------------
-workflow <- rworkflows::use_workflow(run_bioccheck = FALSE, 
-                                     run_rcmdcheck = TRUE,  
-                                     run_pkgdown = TRUE, 
+## ----eval=has_net-------------------------------------------------------------
+workflow <- rworkflows::use_workflow(run_bioccheck = FALSE,
+                                     run_rcmdcheck = TRUE,
+                                     run_pkgdown = TRUE,
                                      run_docker = TRUE,
                                      docker_user = "bschilder",
                                      docker_org = "neurogenomicslab",
@@ -13,11 +19,11 @@ workflow <- rworkflows::use_workflow(run_bioccheck = FALSE,
                                      ## Use default save_dir in practice
                                      save_dir = tempdir())
 
-## -----------------------------------------------------------------------------
+## ----eval=has_net-------------------------------------------------------------
 workflow_static <- rworkflows::use_workflow(name = "rworkflows_static",
-                                     run_bioccheck = FALSE, 
-                                     run_rcmdcheck = TRUE,  
-                                     run_pkgdown = TRUE, 
+                                     run_bioccheck = FALSE,
+                                     run_rcmdcheck = TRUE,
+                                     run_pkgdown = TRUE,
                                      run_docker = TRUE,
                                      docker_user = "bschilder",
                                      docker_org = "neurogenomicslab",
@@ -25,7 +31,7 @@ workflow_static <- rworkflows::use_workflow(name = "rworkflows_static",
                                      ## Use default save_dir in practice
                                      save_dir = tempdir())
 
-## ----results='asis'-----------------------------------------------------------
+## ----results='asis', eval=has_net---------------------------------------------
 badges <- rworkflows::use_badges()
 
 ## ----results='asis'-----------------------------------------------------------
@@ -43,10 +49,11 @@ vignette1 <- rworkflows::use_vignette_getstarted(package = "mypackage",
 
 ## -----------------------------------------------------------------------------
 ## Use default save_dir in practice
-vignette2 <- rworkflows::use_vignette_docker(docker_org = "neurogenomics",
+vignette2 <- rworkflows::use_vignette_docker(package = "mypackage",
+                                             docker_org = "neurogenomics",
                                              save_dir = tempdir())
 
-## -----------------------------------------------------------------------------
+## ----eval=has_net-------------------------------------------------------------
 runners <- rworkflows::construct_runners(
   python_version = list("ubuntu-latest"="3.10.11",
                         "macOS-latest"="3.9",
@@ -68,9 +75,9 @@ environment_file <- construct_conda_yml(name = "myenv",
                                                 "magic-impute"),
                                         preview = TRUE)
 
-## -----------------------------------------------------------------------------
-workflow <- rworkflows::use_workflow(environment_file = environment_file, 
-                                     preview = TRUE, 
+## ----eval=has_net-------------------------------------------------------------
+workflow <- rworkflows::use_workflow(environment_file = environment_file,
+                                     preview = TRUE,
                                      force_new = TRUE,
                                      ## Use default save_dir in practice
                                      save_dir = tempdir())

@@ -1,6 +1,6 @@
 test_that("infer_deps works", {
-  
-  
+  if (!is_gha()) testthat::skip_if_offline(host = "github.com")
+
   #' #### Get example DESCRIPTION file ####
   url <- "https://github.com/neurogenomics/templateR/raw/master/DESCRIPTION"
   path <- tempfile(fileext = "DESCRIPTION")
